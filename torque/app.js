@@ -284,7 +284,7 @@ app.post("/agendamentos", async (req, res) => {
 app.put("/agendamentos/:id", async (req, res) => {
   await db.query("UPDATE agendamentos SET data_agendamento = ? WHERE id = ?", [
     req.body.data_agendamento.replace("T", " "),
-    req.params.id,
+    req.parzams.id,
   ]);
   res.redirect("/agendamentos");
 });

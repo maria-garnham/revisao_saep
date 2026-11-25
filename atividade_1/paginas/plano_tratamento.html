@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fisioterapia - Planos de Tratamento</title>
+  </head>
+  <body>
+    <h1>Planos de Tratamento</h1>
+    <p><a href="/principal"> Voltar </a></p>
+    <table border="1">
+      <tr>
+        <th>Descrição</th>
+        <th>Paciente</th>
+        <th></th>
+      </tr>
+      {{#planos_tratamento}}
+      <tr>
+        <td>{{descricao}}</td>
+        <td>{{id_paciente}}</td>
+        <td>
+          <a href="/planos_tratamento?editar={{id_plano_tratamento}}">Editar</a>
+
+          <form method="POST" action="/planos_tratamento/{{id_plano_tratamento}}">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button>Excluir</button>
+          </form>
+        </td>
+      </tr>
+      {{/planos_tratamento}}
+    </table>
+
+    <h2>
+      {{#editando}} Editar {{/editando}}{{^editando}} Cadastrar {{/editando}}
+      plano de tratamento
+    </h2>
+
+    <form method="POST" action="{{acao}}">
+      {{#editando}}<input type="hidden" name="_method" value="PUT" />
+      {{/editando}}
+      <select name="id_paciente" required>
+        <option value="">Selecione o paciente</option>
+        {{#pacientes}}
+        <option value="{{id_paciente}}" {{selecionado}}>{{nome}}</option>
+        {{/pacientes}}
+      </select>
+
+      <input
+        type="text"
+        name="descricao"
+        placeholder="Descrição"
+        value="{{form.descricao}}"
+        required
+      />
+      
+      <button>
+        {{#editando}} Salvar {{/editando}} {{^editando}} Cadastrar {{/editando}}
+      </button>
+    </form>
+    <p>{{erro}}</p>
+  </body>
+</html>

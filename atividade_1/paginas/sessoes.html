@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fisioterapia - Sessões</title>
+  </head>
+  <body>
+    <h1>Sessões</h1>
+    <p><a href="/principal"> Voltar </a></p>
+
+    <table border="1">
+      <tr>
+        <th>Data da Sessão</th>
+        <th>Plano de Tratamento</th>
+        <th>Paciente</th>
+        <th>Alterar Data</th>
+      </tr>
+      {{#sessoes}}
+      <tr>
+        <td>{{data_br}}</td>
+        <td>{{plano_descricao}}</td>
+        <td>{{paciente_nome}}</td>
+        <td>
+          <form method="POST" action="/sessoes/{{id_sessao}}">
+            <input type="hidden" name="_method" value="PUT" />
+
+            <input
+              type="datetime-local"
+              name="data_sessao"
+              value="{{data_input}}"
+              required
+            />
+
+            <button>Salvar</button>
+          </form>
+
+          <form method="POST" action="/sessoes/{{id_sessao}}">
+            <input type="hidden" name="_method" value="DELETE" />
+
+            <button>Excluir</button>
+          </form>
+        </td>
+      </tr>
+      {{/sessoes}}
+    </table>
+
+    <h2>Cadastrar sessão</h2>
+    <form method="POST" action="/sessoes">
+      <select name="id_paciente" required>
+        <option value="">Selecione o paciente...</option>
+        {{#pacientes}}
+        <option value="{{id_paciente}}">{{nome}}</option>
+        {{/pacientes}}
+      </select>
+
+      <select name="id_plano_tratamento" required>
+        <option value="">Selecione o plano de tratamento...</option>
+        {{#planos_tratamento}}
+        <option value="{{id_plano_tratamento}}">{{descricao}}</option>
+        {{/planos_tratamento}}
+      </select>
+
+      <input type="datetime-local" name="data_sessao" required />
+
+      <button>Cadastrar</button>
+    </form>
+    <p>{{erro}}</p>
+  </body>
+</html>
